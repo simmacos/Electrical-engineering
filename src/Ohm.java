@@ -1,10 +1,15 @@
 import java.util.Scanner;
 
+import static java.awt.SystemColor.text;
 public class Ohm {
-    private double voltage, ampere, ohm, watt;
+    protected double voltage, ampere, ohm, watt;
 
     public void setVoltage ( double v )
     {
+        while (v < 0) {
+            System.out.println("Il valore non può essere negativo. Inserisci nuovamente il voltaggio:");
+            v = input.nextDouble();
+        }
         this.voltage = v;
     }
     public void setAmpere ( double a )
@@ -36,27 +41,51 @@ public class Ohm {
         return watt;
     }
 
+    Scanner input = new Scanner(System.in);
+    TextOhm text = new TextOhm();
+
     public void calcOhm()
     {
-        Scanner input = new Scanner(System.in);
-
-        Ohm text = new Ohm();
-        text.printIntro();
-
-        int num = input.nextInt();
-
-        switch (num)
+        int choose;
+        while(true)
         {
-            case 1:
-                text.printIntro();
-            break;
+            text.printIntro();
+            choose = input.nextInt();
 
-            default:
+            if(choose == 0 ) break;
+
+
+
         }
-
     }
-    public void printIntro()
+    public void insertValues()
     {
-        System.out.println("What do you wanna calc?");
+        while(true)
+        {
+            text.printVoltage();
+            System.out.println("(1)");
+
+            text.printAmpere();
+            System.out.println("(2)");
+
+            text.printOhm();
+            System.out.println("(3)");
+
+            text.printWatt();
+            System.out.println("(4)");
+
+            Ohm ohmLaw = new Ohm();
+            int ins = input.nextInt();
+            if(ins == 0) break;
+            double value = input.nextDouble();
+            switch (ins) {
+                case 1:
+                    ohmLaw.setVoltage(value);
+
+                    double j = ohmLaw.getVoltage();
+                    System.out.println(j);
+                    break;
+            }
+        }
     }
 }

@@ -25,4 +25,11 @@ public class TextOhm {
     {
         System.out.printf("Insert Watt : ");
     }
+    public void space(){ System.out.println();}
+
+    public void printIteration(){
+        System.out.println("Insert new Values (1) ");
+        System.out.println("Reset all values (2) ");
+        System.out.println("Exit (0) ");
+    }
 }

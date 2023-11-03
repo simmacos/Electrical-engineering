@@ -3,6 +3,11 @@ import java.util.Scanner;
 import static java.awt.SystemColor.text;
 public class Ohm {
     protected double voltage, ampere, ohm, watt;
+    Ohm ohmLaw;
+    public Ohm()
+    {
+        ohmLaw = this;
+    }
 
     public void setVoltage ( double v )
     {
@@ -44,19 +49,51 @@ public class Ohm {
     Scanner input = new Scanner(System.in);
     TextOhm text = new TextOhm();
 
+    boolean firstIteration = true;
     public void calcOhm()
     {
         int choose;
-        while(true)
-        {
-            text.printIntro();
-            choose = input.nextInt();
+        boolean firstIteration = true;
 
-            if(choose == 0 ) break;
+            while (true)
+            {
+                if(!firstIteration)
+                {
+                    text.space();
+                    text.printIteration();
+                    text.space();
 
+                    choose = input.nextInt();
+                    switch (choose)
+                    {
+                        case 1:
 
+                            break;
+                        case 2:
+                            ohmLaw.reset();
+                            break;
+                        case 3:
+                            System.out.println("   ---/\\/\\/\\--- ");
+                            System.exit(0);
+                            break ;
+                        default:
+                            throw new IllegalStateException("Unexpected value: " + choose);
+                    }
+                }
+                firstIteration = false;
+                ohmLaw.insertValues();
 
-        }
+                double result;
+                VoltageCalc v = new VoltageCalc(ohmLaw);
+                ResistCalc r = new ResistCalc(ohmLaw);
+                AmpereCalc a = new AmpereCalc(ohmLaw);
+                PowerCalc p = new PowerCalc(ohmLaw);
+
+                v.printVoltage();
+                a.printAmpere();
+                r.printResist();
+                p.printPower();
+            }
     }
     public void insertValues()
     {
@@ -74,18 +111,40 @@ public class Ohm {
             text.printWatt();
             System.out.println("(4)");
 
-            Ohm ohmLaw = new Ohm();
+            System.out.println("Exit and Calculate (0)");
+
             int ins = input.nextInt();
             if(ins == 0) break;
-            double value = input.nextDouble();
+            double value;
             switch (ins) {
                 case 1:
+                    System.out.printf("V : ");
+                    value = input.nextDouble();
                     ohmLaw.setVoltage(value);
-
-                    double j = ohmLaw.getVoltage();
-                    System.out.println(j);
+                    break;
+                case 2:
+                    System.out.printf("A : ");
+                    value = input.nextDouble();
+                    ohmLaw.setAmpere(value);
+                    break;
+                case 3:
+                    System.out.printf("Ω : ");
+                    value = input.nextDouble();
+                    ohmLaw.setOhm(value);
+                    break;
+                case 4:
+                    System.out.printf("W : ");
+                    value = input.nextDouble();
+                    ohmLaw.setWatt(value);
                     break;
             }
         }
+    }
+    public void reset()
+    {
+        voltage = 0.0;
+        ampere = 0.0;
+        ohm = 0.0;
+        watt = 0.0;
     }
 }
